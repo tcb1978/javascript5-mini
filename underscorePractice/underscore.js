@@ -71,12 +71,27 @@ var customers = [
   }
 ];
 
+const blah = customers.map(function (idividual) {
+  return idividual.email
+})
+console.log(`Vanilla: `, blah)
+console.log(`Underscore: `, _.pluck(customers, 'email'))
 // Create an array of all email addresses
 // first without using underscore's pluck method, then with it.
+
 
 var inviteList1 = ["Ed", "Fanny", "Mildred", "Alice", "James"];
 var inviteList2 = ["Jake", "Mildred", "Jimmy", "Ed", "Franklin"];
 
+var newList = inviteList1.concat(inviteList2);
+var noDupesList = newList.filter(function (item, pos) { 
+  return newList.indexOf(item) == pos 
+});
+
+const list = _.union(inviteList1, inviteList2)
+
+console.log(`Vanilla: `, noDupesList);
+console.log(`Underscore: `, list);
 // Uh oh! We are having a party and two invite lists were created.
 // Create a duplicate-free list of the people we want at the party without underscore's ._union().
 // Then create another list that removes all duplicates using _.union().
@@ -103,6 +118,10 @@ var friendsOfBetty = [
   "Nancy"
 ];
 
+const jimBetty = friendsOfJim = friendsOfJim.filter(val => !friendsOfBetty.includes(val));
+console.log(`Javascript: `, jimBetty);
+const bettyJim = _.union(friendsOfJim, friendsOfJim)
+console.log(`Underscore: `, bettyJim);
 // Jim and Betty are having a party, but they only want to invite mutual friends.
 // Create an array of mutual friends. First without using underscore.
 // Then using underscores _.intersection().
@@ -142,5 +161,31 @@ var purchases = [
   }
 ];
 
+// function separateCompanies(arr){
+//   let staples = []
+//   let mifflin = []
+//   arr.filter(company => {
+//     if( company.company === "Staples" ) {
+//       staples.push(company)
+//     }
+//     else {
+//       mifflin.push(company)
+//     }
+//   })
+//   console.log({staples}, {mifflin});
+// }
+// separateCompanies(purchases)
+
+let companyPurchases = purchases.reduce((total, element) => {
+  if (!total[element.company]) {
+    total[element.company] = []
+    total[element.company].push(element)
+  } else total[element.company].push(element)
+  return total
+}, {})
+console.log(`Javascript: `, companyPurchases);
+
+const underscorePurchases = _.groupBy(purchases, 'company');
+console.log(`Underscore: `, underscorePurchases);
 // First, group the purchases by company without underscore
 // then do it again using _.groupBy()
